@@ -17,7 +17,14 @@ namespace Services.Impls
             _gameSettingsDatabase = gameSettingsDatabase;
         }
 
-        public void SetThrowableCube(CubeItem cube)
+        public void DisableCube()
+        {
+            _throwableCube.Rigidbody.constraints = RigidbodyConstraints.None;
+            _throwableCube.IsThrown = false;
+            _throwableCube = null;
+        }
+
+        public void SetCube(CubeItem cube)
         {
             _throwableCube = cube;
             _throwableCube.transform.position = _gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnPosition;

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: GameSettingsDatabase
   m_EditorClassIdentifier: 
   gameSettingVo:
-    CubesAmountForPool: 25
-    CubeThrowImpulse: 25
+    CubesAmountForPool: 40
+    CubeThrowImpulse: 20
     MoveCubeOffset: 0.1
+    MinimalForceImpactToMergeCubes: 250
+    CubeJumpForce: 4
     ThrowableCubeSpawnPosition: {x: 0, y: 0.5, z: -4.3}

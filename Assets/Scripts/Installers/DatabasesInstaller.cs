@@ -10,10 +10,12 @@ namespace Installers
     public class DatabasesInstaller : ScriptableObjectInstaller
     { 
         [SerializeField] private GameSettingsDatabase gameSettingsDatabase;
+        [SerializeField] private ColorSettingsDatabase colorSettingsDatabase;
 
         public override void InstallBindings()
         {
             Container.Bind<IGameSettingsDatabase>().FromInstance(gameSettingsDatabase).AsSingle();
+            Container.Bind<IColorSettingsDatabase>().FromInstance(colorSettingsDatabase).AsSingle();
         }
     }
 }

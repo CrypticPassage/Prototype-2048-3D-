@@ -1,7 +1,11 @@
-﻿namespace Controllers
+﻿using Signals;
+
+namespace Controllers
 {
     public interface IGameController
     {
-        void OnCubeThrowCollisionStart();
+        void OnCubeItemCollisionWithBorder(SignalCubeItemCollisionWithBorder signal);
+        void OnCubeItemCollisionWithOtherCubeItem(SignalCubeItemCollisionWithOtherCubeItem signal);
+        
     }
 }

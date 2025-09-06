@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: DatabasesInstaller
   m_EditorClassIdentifier: 
   gameSettingsDatabase: {fileID: 11400000, guid: 1868076c30bc0c242aaa4377c10f7e40, type: 2}
+  colorSettingsDatabase: {fileID: 11400000, guid: 4e931918532193247b6ed51db2720f7b, type: 2}

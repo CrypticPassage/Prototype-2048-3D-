@@ -3,8 +3,8 @@ using Zenject;
 
 namespace Factories
 {
-    public class CubeItemFactory : PlaceholderFactory<CubeItem>
-    {
-        
-    }
+    // public class CubeItemFactory : PlaceholderFactory<CubeItem>
+    // {
+    //     
+    // }
 }

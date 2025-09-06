@@ -10,6 +10,8 @@ namespace Models
         public int CubesAmountForPool;
         public float CubeThrowImpulse;
         public float MoveCubeOffset;
+        public float MinimalForceImpactToMergeCubes;
+        public float CubeJumpForce;
         public Vector3 ThrowableCubeSpawnPosition;
     }
 }
