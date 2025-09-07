@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettingVo:
     CubesAmountForPool: 40
-    CubeThrowImpulse: 30
+    CubeThrowImpulse: 28
     MoveCubeOffset: 0.05
-    MinimalForceImpactToMergeCubes: 400
+    MinimalForceImpactToMergeCubes: 450
     CubeJumpForce: 5
     CubeWithTwoSpawnChance: 0.75
     CubeNumberTwo: 2

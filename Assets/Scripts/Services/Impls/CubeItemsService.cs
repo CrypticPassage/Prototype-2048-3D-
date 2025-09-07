@@ -31,7 +31,7 @@ namespace Services.Impls
         }
 
         public void OnCubeItemMerged(SignalCubeItemMerged signal) 
-            => ReturnActionCubeItem(signal.MergedCubeItem);
+            => _cubeItemsPool.Return(signal.MergedCubeItem);
 
         public CubeItem GetCube()
         {
