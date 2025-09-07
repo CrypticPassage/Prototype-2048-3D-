@@ -44,7 +44,7 @@ namespace Installers
             Container.DeclareSignal<SignalCubeItemMerged>();
             Container.DeclareSignal<SignalGameOver>();
         }
-
+        
         private void BindSignals()
         {
             Container.BindSignal<SignalCubeItemCollisionWithBorder>()

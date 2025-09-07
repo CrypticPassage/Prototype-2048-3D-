@@ -45,10 +45,8 @@ namespace Services.Impls
             return newCube;
         }
         
-        public void RemoveAllCubeItems()
-        {
-            _cubeItemsPool.ReturnAll();
-        }
+        public void RemoveAllCubeItems() 
+            => _cubeItemsPool.ReturnAll();
 
         private CubeItem PreloadCubeItem() => _cubeItemFactory.Create();
 
