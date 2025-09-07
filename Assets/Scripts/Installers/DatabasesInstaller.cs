@@ -1,7 +1,6 @@
 ﻿using Controllers.Databases;
 using Controllers.Databases.Impls;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Installers

@@ -11,7 +11,6 @@ namespace Controllers.Impls
 {
     public class GameController : MonoBehaviour, IGameController
     {
-        private SignalBus _signalBus;
         private ICubeItemsService _cubeItemsService;
         private ICubeItemsInteractService _cubeItemsInteractService;
         private IThrowableCubeItemService _throwableCubeItemService;
@@ -25,8 +24,7 @@ namespace Controllers.Impls
         private bool _isInputAble = true;
         
         [Inject]
-        public void Construct(SignalBus signalBus,
-            ICubeItemsService cubeItemsService,
+        public void Construct(ICubeItemsService cubeItemsService,
             ICubeItemsInteractService cubeItemsInteractService,
             IThrowableCubeItemService throwableCubeItemService,
             IInputService inputService,
@@ -35,7 +33,6 @@ namespace Controllers.Impls
             Button replayButton, 
             IGameSettingsDatabase gameSettingsDatabase)
         {
-            _signalBus = signalBus;
             _cubeItemsService = cubeItemsService;
             _cubeItemsInteractService = cubeItemsInteractService;
             _throwableCubeItemService = throwableCubeItemService;
@@ -56,10 +53,10 @@ namespace Controllers.Impls
         public void OnCubeItemMerged(SignalCubeItemMerged signal)
         {
             var scoreAmount = int.Parse(_scoreAmountText.text);
-
-            scoreAmount += 1;
-            _scoreAmountText.text = scoreAmount.ToString();
             
+            scoreAmount += 1;
+            
+            _scoreAmountText.text = scoreAmount.ToString();
             _cubeItemsService.OnCubeItemMerged(signal);
         }
 
