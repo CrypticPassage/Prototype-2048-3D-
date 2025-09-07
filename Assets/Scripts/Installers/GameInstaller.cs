@@ -48,7 +48,7 @@ namespace Installers
 
         private void BindFactories()
         {
-            Container.BindMemoryPool<CubeItem, CubeItemPool>().WithInitialSize(50).FromComponentInNewPrefab(cubeItem);
+            Container.BindFactory<CubeItem, CubeItemFactory>().FromComponentInNewPrefab(cubeItem).AsTransient();
         }
         
         private void BindControllers()

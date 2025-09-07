@@ -8,6 +8,7 @@ namespace Objects
     public class CubeItem : MonoBehaviour
     {
         [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private MeshRenderer cubeRenderer;
         [SerializeField] private TMP_Text[] numbersTexts;
         
         private SignalBus _signalBus;
@@ -15,11 +16,7 @@ namespace Objects
         private bool _isThrown;
 
         public Rigidbody Rigidbody => rigidbody;
-        public int Number
-        {
-            get => _number;
-            set => _number = value;
-        }
+        public int Number => _number;
         
         public bool IsThrown
         {
@@ -36,6 +33,7 @@ namespace Objects
         public void SetData(int number, Color color)
         {
             _number = number;
+            cubeRenderer.material.color = color;
 
             foreach (var text in numbersTexts)
                 text.text = number.ToString();

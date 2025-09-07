@@ -12,6 +12,9 @@ namespace Models
         public float MoveCubeOffset;
         public float MinimalForceImpactToMergeCubes;
         public float CubeJumpForce;
+        public float CubeWithTwoSpawnChance;
+        public int CubeNumberTwo;
+        public int CubeNumberFour;
         public Vector3 ThrowableCubeSpawnPosition;
     }
 }

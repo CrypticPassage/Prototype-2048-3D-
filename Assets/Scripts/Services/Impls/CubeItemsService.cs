@@ -1,5 +1,6 @@
 ﻿using Controllers.Databases;
 using Factories;
+using Models;
 using Objects;
 using Pools;
 using Signals;
@@ -11,23 +12,43 @@ namespace Services.Impls
     public class CubeItemsService : MonoBehaviour, ICubeItemsService
     {
         private IGameSettingsDatabase _gameSettingsDatabase;
-        private CubeItemPool _cubeItemPool;
+        private IColorSettingsDatabase _colorSettingsDatabase;
+        private GameSettingVo _gameSettingVo;
+        private PoolBase<CubeItem> _cubeItemsPool;
+        private CubeItemFactory _cubeItemFactory;
 
         [Inject]
-        public void Construct(IGameSettingsDatabase gameSettingsDatabase, CubeItemPool cubeItemPool)
+        public void Construct(IGameSettingsDatabase gameSettingsDatabase,
+            IColorSettingsDatabase colorSettingsDatabase,
+            CubeItemFactory cubeItemFactory)
         {
             _gameSettingsDatabase = gameSettingsDatabase;
-            _cubeItemPool = cubeItemPool;
+            _gameSettingVo = _gameSettingsDatabase.GameSettingVo;
+            _colorSettingsDatabase = colorSettingsDatabase;
+            _cubeItemFactory = cubeItemFactory;
+            _cubeItemsPool = new PoolBase<CubeItem>(
+                PreloadCubeItem, GetActionCubeItem, ReturnActionCubeItem, _gameSettingsDatabase.GameSettingVo.CubesAmountForPool);
         }
 
         public void OnCubeItemMerged(SignalCubeItemMerged signal) 
-            => _cubeItemPool.Despawn(signal.MergedCubeItem);
+            => ReturnActionCubeItem(signal.MergedCubeItem);
 
         public CubeItem GetCube()
         {
-            var newCube = _cubeItemPool.Spawn();
-            newCube.Number = 2;
+            var cubeNumber = Random.value <= _gameSettingVo.CubeWithTwoSpawnChance ? _gameSettingVo.CubeNumberTwo
+                : _gameSettingVo.CubeNumberFour;
+            var color = _colorSettingsDatabase.GetColorSettingByNumber(cubeNumber).Color;
+            var newCube = _cubeItemsPool.Get();
+            
+            newCube.SetData(cubeNumber, color);
+            
             return newCube;
         }
+        
+        public CubeItem PreloadCubeItem() => _cubeItemFactory.Create();
+
+        public void GetActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(true);
+
+        public void ReturnActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(false);
     }
 }
