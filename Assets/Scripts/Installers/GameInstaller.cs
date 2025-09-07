@@ -15,7 +15,8 @@ namespace Installers
 {
     public class GameInstaller : MonoInstaller
     {
-        [Header("Items")]
+        [Header("Objects & Items")] 
+        [SerializeField] private GameObject frontBorder;
         [SerializeField] private CubeItem cubeItem;
         [Header("Canvas")] 
         [SerializeField] private TMP_Text scoreAmountText;
@@ -30,6 +31,7 @@ namespace Installers
 
             DeclareSignals();
             BindUi();
+            BindObjects();
             BindFactories();
             BindServices();
             BindControllers();
@@ -38,18 +40,15 @@ namespace Installers
 
         private void DeclareSignals()
         {
-            Container.DeclareSignal<SignalCubeItemCollisionWithBorder>();
-            Container.DeclareSignal<SignalCubeItemCollisionWithOtherCubeItem>();
+            Container.DeclareSignal<SignalCubeItemCollision>();
             Container.DeclareSignal<SignalCubeItemMerged>();
             Container.DeclareSignal<SignalGameOver>();
         }
         
         private void BindSignals()
         {
-            Container.BindSignal<SignalCubeItemCollisionWithBorder>()
-                .ToMethod<IGameController>(x => x.OnCubeItemCollisionWithBorder).FromResolve();
-            Container.BindSignal<SignalCubeItemCollisionWithOtherCubeItem>()
-                .ToMethod<IGameController>(x => x.OnCubeItemCollisionWithOtherCubeItem).FromResolve();
+            Container.BindSignal<SignalCubeItemCollision>()
+                .ToMethod<IGameController>(x => x.OnCubeItemCollision).FromResolve();
             Container.BindSignal<SignalCubeItemMerged>()
                 .ToMethod<IGameController>(x => x.OnCubeItemMerged).FromResolve();
             Container.BindSignal<SignalGameOver>()
@@ -62,6 +61,12 @@ namespace Installers
             Container.BindInstance(winText).WithId(ZenjectUids.Win);
             Container.Bind<Button>().FromInstance(replayButton).AsSingle();
         }
+        
+        private void BindObjects()
+        {
+            Container.Bind<GameObject>().FromInstance(frontBorder).AsSingle();
+        }
+        
         private void BindFactories()
         {
             Container.BindFactory<CubeItem, CubeItemFactory>().FromComponentInNewPrefab(cubeItem).AsTransient();

@@ -6,7 +6,6 @@ namespace Controllers
     {
         void OnGameOver();
         void OnCubeItemMerged(SignalCubeItemMerged signal);
-        void OnCubeItemCollisionWithBorder(SignalCubeItemCollisionWithBorder signal);
-        void OnCubeItemCollisionWithOtherCubeItem(SignalCubeItemCollisionWithOtherCubeItem signal);
+        void OnCubeItemCollision(SignalCubeItemCollision signal);
     }
 }

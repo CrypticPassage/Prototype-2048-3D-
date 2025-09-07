@@ -1,4 +1,5 @@
 ﻿using Controllers.Databases;
+using Objects;
 using Services;
 using Signals;
 using TMPro;
@@ -17,6 +18,7 @@ namespace Controllers.Impls
         private IInputService _inputService;
         private IGameSettingsDatabase _gameSettingsDatabase;
 
+        private GameObject _frontBorder;
         private TMP_Text _scoreAmountText;
         private TMP_Text _winText;
         private Button _replayButton;
@@ -28,6 +30,7 @@ namespace Controllers.Impls
             ICubeItemsInteractService cubeItemsInteractService,
             IThrowableCubeItemService throwableCubeItemService,
             IInputService inputService,
+            GameObject frontBorder,
             [Inject(Id = ZenjectUids.Score)] TMP_Text scoreAmountText,
             [Inject(Id = ZenjectUids.Win)] TMP_Text winText,
             Button replayButton, 
@@ -37,6 +40,7 @@ namespace Controllers.Impls
             _cubeItemsInteractService = cubeItemsInteractService;
             _throwableCubeItemService = throwableCubeItemService;
             _inputService = inputService;
+            _frontBorder = frontBorder;
             _scoreAmountText = scoreAmountText;
             _winText = winText;
             _replayButton = replayButton;
@@ -59,19 +63,26 @@ namespace Controllers.Impls
             _scoreAmountText.text = scoreAmount.ToString();
             _cubeItemsService.OnCubeItemMerged(signal);
         }
-
-        public void OnCubeItemCollisionWithBorder(SignalCubeItemCollisionWithBorder signal)
-        {
-            if (signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
-                SetNewThrowableCube();
-        }
         
-        public void OnCubeItemCollisionWithOtherCubeItem(SignalCubeItemCollisionWithOtherCubeItem signal)
+        public void OnCubeItemCollision(SignalCubeItemCollision signal)
         {
+            if (signal.Collision.collider.gameObject == _frontBorder && signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
+            {
+                SetNewThrowableCube();
+                return;
+            }
+
+            var otherCubeItem = signal.Collision.collider.GetComponent<CubeItem>();
+            
+            if (otherCubeItem == null)
+                return;
+            
+            var impactForce = signal.Collision.impulse.magnitude / Time.fixedDeltaTime;
+            
             if (signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
                 SetNewThrowableCube();
 
-            _cubeItemsInteractService.MergeCubeItems(signal.CubeItemThatEnteredCollision, signal.OtherCubeItem, signal.ImpactForce);
+            _cubeItemsInteractService.MergeCubeItems(signal.CubeItemThatEnteredCollision, otherCubeItem, impactForce);
         }
 
         private void SetNewThrowableCube()
