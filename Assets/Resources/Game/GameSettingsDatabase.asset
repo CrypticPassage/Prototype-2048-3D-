@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettingVo:
     CubesAmountForPool: 40
-    CubeThrowImpulse: 25
+    CubeThrowImpulse: 30
     MoveCubeOffset: 0.05
     MinimalForceImpactToMergeCubes: 200
     CubeJumpForce: 4
     CubeWithTwoSpawnChance: 0.75
     CubeNumberTwo: 2
     CubeNumberFour: 4
+    ThrowableCubeBorderX: 1.9
     ThrowableCubeSpawnPosition: {x: 0, y: 0.5, z: -4.3}
+    ThrowableCubeSpawnRotationEuler: {x: 90, y: 90, z: 90}
+    ClickPositionMaxYToThrow: 800

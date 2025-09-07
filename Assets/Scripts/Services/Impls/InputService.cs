@@ -26,5 +26,12 @@ namespace Services.Impls
 
             return new Vector2(x, y);
         }
+        
+        public Vector2 GetClickPositionOnScreen()
+        {
+            var position = Input.mousePosition;
+
+            return position;
+        }
     }
 }

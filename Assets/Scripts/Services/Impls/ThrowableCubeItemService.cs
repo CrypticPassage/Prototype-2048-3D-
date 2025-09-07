@@ -19,6 +19,9 @@ namespace Services.Impls
 
         public void DisableCube()
         {
+            if (_throwableCube == null)
+                return;
+            
             _throwableCube.Rigidbody.constraints = RigidbodyConstraints.None;
             _throwableCube.IsThrown = false;
             _throwableCube = null;
@@ -28,17 +31,22 @@ namespace Services.Impls
         {
             _throwableCube = cube;
             _throwableCube.transform.position = _gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnPosition;
+            _throwableCube.transform.rotation = Quaternion.Euler(_gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnRotationEuler);
         }
 
         public void MoveCube(Vector3 shift)
         {
-            _throwableCube.gameObject.transform.position += shift * _gameSettingsDatabase.GameSettingVo.MoveCubeOffset;
+            var position = _throwableCube.transform.position;
+            var dx = shift.x * _gameSettingsDatabase.GameSettingVo.MoveCubeOffset;
+            var borderX = _gameSettingsDatabase.GameSettingVo.ThrowableCubeBorderX;
+            var targetX = Mathf.Clamp(position.x + dx, -borderX, borderX);
+
+            _throwableCube.transform.position = new Vector3(targetX, position.y, position.z);
         }
         
         public void ThrowCube(Vector3 direction)
         {
             _throwableCube.Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX;
-
             _throwableCube.IsThrown = true;
             _throwableCube.Rigidbody.AddForce(direction.normalized * _gameSettingsDatabase.GameSettingVo.CubeThrowImpulse, ForceMode.Impulse);
         }

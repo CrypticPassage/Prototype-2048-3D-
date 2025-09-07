@@ -44,11 +44,14 @@ namespace Services.Impls
             
             return newCube;
         }
+
+        public void RemoveAllCubeItems()
+            => _cubeItemsPool.ReturnAll();
         
-        public CubeItem PreloadCubeItem() => _cubeItemFactory.Create();
+        private CubeItem PreloadCubeItem() => _cubeItemFactory.Create();
 
-        public void GetActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(true);
+        private void GetActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(true);
 
-        public void ReturnActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(false);
+        private void ReturnActionCubeItem(CubeItem cubeItem) => cubeItem.gameObject.SetActive(false);
     }
 }

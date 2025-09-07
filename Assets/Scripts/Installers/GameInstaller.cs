@@ -6,7 +6,9 @@ using Pools;
 using Services;
 using Services.Impls;
 using Signals;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Installers
@@ -15,6 +17,9 @@ namespace Installers
     {
         [Header("Items")]
         [SerializeField] private CubeItem cubeItem;
+        [Header("Canvas")] 
+        [SerializeField] private TMP_Text scoreAmountText;
+        [SerializeField] private Button replayButton;
         [Header ("Other")]
         [SerializeField] private Transform scriptsTransform;
         
@@ -23,6 +28,7 @@ namespace Installers
             SignalBusInstaller.Install(Container);
 
             DeclareSignals();
+            BindUi();
             BindFactories();
             BindServices();
             BindControllers();
@@ -43,9 +49,14 @@ namespace Installers
             Container.BindSignal<SignalCubeItemCollisionWithOtherCubeItem>()
                 .ToMethod<IGameController>(x => x.OnCubeItemCollisionWithOtherCubeItem).FromResolve();
             Container.BindSignal<SignalCubeItemMerged>()
-                .ToMethod<ICubeItemsService>(x => x.OnCubeItemMerged).FromResolve();
+                .ToMethod<IGameController>(x => x.OnCubeItemMerged).FromResolve();
         }
-
+        
+        private void BindUi()
+        {
+            Container.Bind<TMP_Text>().FromInstance(scoreAmountText).AsSingle();
+            Container.Bind<Button>().FromInstance(replayButton).AsSingle();
+        }
         private void BindFactories()
         {
             Container.BindFactory<CubeItem, CubeItemFactory>().FromComponentInNewPrefab(cubeItem).AsTransient();

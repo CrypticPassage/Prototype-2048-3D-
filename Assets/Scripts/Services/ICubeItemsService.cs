@@ -7,5 +7,6 @@ namespace Services
     {
         void OnCubeItemMerged(SignalCubeItemMerged signal);
         CubeItem GetCube();
+        void RemoveAllCubeItems();
     }
 }

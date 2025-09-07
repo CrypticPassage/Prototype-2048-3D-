@@ -8,5 +8,6 @@ namespace Services
         bool IsClickUp();
         bool IsClickHeld();
         Vector2 GetClickDelta();
+        Vector2 GetClickPositionOnScreen();
     }
 }

@@ -15,6 +15,10 @@ namespace Models
         public float CubeWithTwoSpawnChance;
         public int CubeNumberTwo;
         public int CubeNumberFour;
+        public float ThrowableCubeBorderX;
         public Vector3 ThrowableCubeSpawnPosition;
+        public Vector3 ThrowableCubeSpawnRotationEuler;
+        [Header("Click Data")] 
+        public float ClickPositionMaxYToThrow;
     }
 }

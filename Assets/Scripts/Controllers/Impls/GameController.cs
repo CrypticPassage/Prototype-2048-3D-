@@ -1,7 +1,9 @@
 ﻿using Controllers.Databases;
 using Services;
 using Signals;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Controllers.Impls
@@ -14,7 +16,9 @@ namespace Controllers.Impls
         private IThrowableCubeItemService _throwableCubeItemService;
         private IInputService _inputService;
         private IGameSettingsDatabase _gameSettingsDatabase;
-        
+
+        private TMP_Text _scoreAmountText;
+        private Button _replayButton;
         private bool _isInputAble = true;
         
         [Inject]
@@ -23,6 +27,8 @@ namespace Controllers.Impls
             ICubeItemsInteractService cubeItemsInteractService,
             IThrowableCubeItemService throwableCubeItemService,
             IInputService inputService,
+            TMP_Text scoreAmountText,
+            Button replayButton, 
             IGameSettingsDatabase gameSettingsDatabase)
         {
             _signalBus = signalBus;
@@ -30,7 +36,19 @@ namespace Controllers.Impls
             _cubeItemsInteractService = cubeItemsInteractService;
             _throwableCubeItemService = throwableCubeItemService;
             _inputService = inputService;
+            _scoreAmountText = scoreAmountText;
+            _replayButton = replayButton;
             _gameSettingsDatabase = gameSettingsDatabase;
+        }
+
+        public void OnCubeItemMerged(SignalCubeItemMerged signal)
+        {
+            var scoreAmount = int.Parse(_scoreAmountText.text);
+
+            scoreAmount += 1;
+            _scoreAmountText.text = scoreAmount.ToString();
+            
+            _cubeItemsService.OnCubeItemMerged(signal);
         }
 
         public void OnCubeItemCollisionWithBorder(SignalCubeItemCollisionWithBorder signal)
@@ -56,6 +74,8 @@ namespace Controllers.Impls
 
         private void Start()
         {
+            _replayButton.onClick.AddListener(OnReplayButtonClick);
+            
             _throwableCubeItemService.SetCube(_cubeItemsService.GetCube());
         }
         
@@ -66,16 +86,30 @@ namespace Controllers.Impls
             
             if (_inputService.IsClickHeld())
             {
-                var clickScreenPosition = _inputService.GetClickDelta();
+                var clickScreenDelta = _inputService.GetClickDelta();
                 
-                _throwableCubeItemService.MoveCube(new Vector3(clickScreenPosition.x, 0f, 0f));
+                _throwableCubeItemService.MoveCube(new Vector3(clickScreenDelta.x, 0f, 0f));
             }
 
             if (_inputService.IsClickUp())
             {
+                var clickPositionOnScreen = _inputService.GetClickPositionOnScreen();
+                
+                if (clickPositionOnScreen.y > _gameSettingsDatabase.GameSettingVo.ClickPositionMaxYToThrow)
+                    return;
+                    
                 _isInputAble = false;
                 _throwableCubeItemService.ThrowCube(Vector3.forward);
             }
+        }
+
+        private void OnReplayButtonClick()
+        {
+            _scoreAmountText.text = "0";
+            _throwableCubeItemService.DisableCube();
+            _cubeItemsService.RemoveAllCubeItems();
+            _throwableCubeItemService.SetCube(_cubeItemsService.GetCube());
+            _isInputAble = true;
         }
     }
 }
