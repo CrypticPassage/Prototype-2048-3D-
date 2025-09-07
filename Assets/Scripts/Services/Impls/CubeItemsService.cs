@@ -9,6 +9,9 @@ using Zenject;
 
 namespace Services.Impls
 {
+    /// <summary>
+    /// Даний сервіс відповідає за роботу пула кубів та предоставляє методи роботи з ним.
+    /// </summary>
     public class CubeItemsService : MonoBehaviour, ICubeItemsService
     {
         private IGameSettingsDatabase _gameSettingsDatabase;

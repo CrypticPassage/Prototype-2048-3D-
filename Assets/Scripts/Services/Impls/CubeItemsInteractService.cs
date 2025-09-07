@@ -6,6 +6,10 @@ using Zenject;
 
 namespace Services.Impls
 {
+    /// <summary>
+    /// Даний сервіс відповідає за взаємодію кубиків у грі. Якщо кубики сходяться за числами, то тоді виконується їх злиття.
+    /// Злиття виконується за рахунок того, що один з кубиків оновлює свої значення, а інший деактивується в пулі.
+    /// </summary>
     public class CubeItemsInteractService : MonoBehaviour, ICubeItemsInteractService
     {
         private SignalBus _signalBus;

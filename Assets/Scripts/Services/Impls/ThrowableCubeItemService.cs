@@ -5,6 +5,9 @@ using Zenject;
 
 namespace Services.Impls
 {
+    /// <summary>
+    /// Даний сервіс містить в собі методи, які використовуються для переміщення та кидку куба, яким управляє гравець.
+    /// </summary>
     public class ThrowableCubeItemService : MonoBehaviour, IThrowableCubeItemService
     {
         private IGameSettingsDatabase _gameSettingsDatabase;

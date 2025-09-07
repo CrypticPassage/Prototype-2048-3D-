@@ -10,6 +10,11 @@ using Zenject;
 
 namespace Controllers.Impls
 {
+    /// <summary>
+    /// Даний контроллер відповідає за ігрову логіку.
+    /// Було створено сервіси з зонами відповідальності, контроллер звертається до них.
+    /// Контроллер приймає фаєри сигналів та виконує конкретну логіку під кожний сигнал.
+    /// </summary>
     public class GameController : MonoBehaviour, IGameController
     {
         private ICubeItemsService _cubeItemsService;

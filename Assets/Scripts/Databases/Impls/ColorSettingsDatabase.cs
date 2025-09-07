@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Controllers.Databases.Impls
 {
+    /// <summary>
+    /// Дана База Даних зберігає кольори кубів в залежності від номеру куба.
+    /// </summary>
     [CreateAssetMenu(menuName = "Databases/ColorSettingsDatabase", fileName = "ColorSettingsDatabase")] 
     public class ColorSettingsDatabase : ScriptableObject, IColorSettingsDatabase
     {
