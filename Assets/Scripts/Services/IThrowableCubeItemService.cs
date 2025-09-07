@@ -5,9 +5,9 @@ namespace Services
 {
     public interface IThrowableCubeItemService
     {
-        void DisableCube();
-        void SetCube(CubeItem cube);
-        void MoveCube(Vector3 shift);
-        void ThrowCube(Vector3 direction);
+        void ResetCubeItem();
+        void SetCubeItem(CubeItem cube);
+        void MoveCubeItem(Vector3 shift);
+        void ThrowCubeItem(Vector3 direction);
     }
 }

@@ -61,14 +61,14 @@ namespace Controllers.Impls
             scoreAmount += 1;
             
             _scoreAmountText.text = scoreAmount.ToString();
-            _cubeItemsService.OnCubeItemMerged(signal);
+            _cubeItemsService.RemoveCubeItem(signal);
         }
         
         public void OnCubeItemCollision(SignalCubeItemCollision signal)
         {
             if (signal.Collision.collider.gameObject == _frontBorder && signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
             {
-                SetNewThrowableCube();
+                SetNewThrowableCubeItem();
                 return;
             }
 
@@ -80,15 +80,15 @@ namespace Controllers.Impls
             var impactForce = signal.Collision.impulse.magnitude / Time.fixedDeltaTime;
             
             if (signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
-                SetNewThrowableCube();
+                SetNewThrowableCubeItem();
 
             _cubeItemsInteractService.MergeCubeItems(signal.CubeItemThatEnteredCollision, otherCubeItem, impactForce);
         }
 
-        private void SetNewThrowableCube()
+        private void SetNewThrowableCubeItem()
         {
-            _throwableCubeItemService.DisableCube();
-            _throwableCubeItemService.SetCube(_cubeItemsService.GetCube()); 
+            _throwableCubeItemService.ResetCubeItem();
+            _throwableCubeItemService.SetCubeItem(_cubeItemsService.GetCubeItem());
             _isInputAble = true;
         }
 
@@ -96,7 +96,7 @@ namespace Controllers.Impls
         {
             _replayButton.onClick.AddListener(OnReplayButtonClick);
             
-            _throwableCubeItemService.SetCube(_cubeItemsService.GetCube());
+            _throwableCubeItemService.SetCubeItem(_cubeItemsService.GetCubeItem());
         }
         
         private void Update()
@@ -108,7 +108,7 @@ namespace Controllers.Impls
             {
                 var clickScreenDelta = _inputService.GetClickDelta();
                 
-                _throwableCubeItemService.MoveCube(new Vector3(clickScreenDelta.x, 0f, 0f));
+                _throwableCubeItemService.MoveCubeItem(new Vector3(clickScreenDelta.x, 0f, 0f));
             }
 
             if (_inputService.IsClickUp())
@@ -119,7 +119,7 @@ namespace Controllers.Impls
                     return;
                     
                 _isInputAble = false;
-                _throwableCubeItemService.ThrowCube(Vector3.forward);
+                _throwableCubeItemService.ThrowCubeItem(Vector3.forward);
             }
         }
 
@@ -127,9 +127,9 @@ namespace Controllers.Impls
         {
             _scoreAmountText.text = "0";
             _winText.gameObject.SetActive(false);
-            _throwableCubeItemService.DisableCube();
+            _throwableCubeItemService.ResetCubeItem();
             _cubeItemsService.RemoveAllCubeItems();
-            _throwableCubeItemService.SetCube(_cubeItemsService.GetCube());
+            _throwableCubeItemService.SetCubeItem(_cubeItemsService.GetCubeItem());
             _isGameOver = false;
             _isInputAble = true;
         }

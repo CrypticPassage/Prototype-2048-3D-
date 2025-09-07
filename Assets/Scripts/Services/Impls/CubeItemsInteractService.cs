@@ -22,20 +22,20 @@ namespace Services.Impls
             _colorSettingsDatabase = colorSettingsDatabase;
         }
 
-        public void MergeCubeItems(CubeItem firstCube, CubeItem secondCube, float forceImpact)
+        public void MergeCubeItems(CubeItem firstCubeItem, CubeItem secondCubeItem, float forceImpact)
         {
-            if (firstCube.Number != secondCube.Number || forceImpact < _gameSettingsDatabase.GameSettingVo.MinimalForceImpactToMergeCubes)
+            if (firstCubeItem.Number != secondCubeItem.Number || forceImpact < _gameSettingsDatabase.GameSettingVo.MinimalForceImpactToMergeCubes)
                 return;
 
-            var newCubeItemNumber = firstCube.Number + secondCube.Number;
+            var newCubeItemNumber = firstCubeItem.Number + secondCubeItem.Number;
             var newCubeItemColor = _colorSettingsDatabase.GetColorSettingByNumber(newCubeItemNumber).Color;
 
-            firstCube.SetData(newCubeItemNumber, newCubeItemColor);
-            firstCube.Rigidbody.AddForce(Vector3.up * _gameSettingsDatabase.GameSettingVo.CubeJumpForce, ForceMode.Impulse);
+            firstCubeItem.SetData(newCubeItemNumber, newCubeItemColor);
+            firstCubeItem.Rigidbody.AddForce(Vector3.up * _gameSettingsDatabase.GameSettingVo.CubeJumpForce, ForceMode.Impulse);
             
-            _signalBus.Fire(new SignalCubeItemMerged(secondCube));
+            _signalBus.Fire(new SignalCubeItemMerged(secondCubeItem));
             
-            if (firstCube.Number >= _gameSettingsDatabase.GameSettingVo.MaxCubeNumber)
+            if (firstCubeItem.Number >= _gameSettingsDatabase.GameSettingVo.MaxCubeNumber)
                 _signalBus.Fire<SignalGameOver>();
         }
     }

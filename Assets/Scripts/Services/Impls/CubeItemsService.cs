@@ -29,11 +29,8 @@ namespace Services.Impls
             _cubeItemsPool = new PoolBase<CubeItem>(
                 PreloadCubeItem, GetActionCubeItem, ReturnActionCubeItem, _gameSettingsDatabase.GameSettingVo.CubesAmountForPool);
         }
-
-        public void OnCubeItemMerged(SignalCubeItemMerged signal) 
-            => _cubeItemsPool.Return(signal.MergedCubeItem);
-
-        public CubeItem GetCube()
+        
+        public CubeItem GetCubeItem()
         {
             var cubeNumber = Random.value <= _gameSettingVo.CubeWithTwoSpawnChance ? _gameSettingVo.CubeNumberTwo
                 : _gameSettingVo.CubeNumberFour;
@@ -44,6 +41,9 @@ namespace Services.Impls
             
             return newCube;
         }
+
+        public void RemoveCubeItem(SignalCubeItemMerged signal) 
+            => _cubeItemsPool.Return(signal.MergedCubeItem);
         
         public void RemoveAllCubeItems() 
             => _cubeItemsPool.ReturnAll();

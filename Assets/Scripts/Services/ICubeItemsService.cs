@@ -5,8 +5,8 @@ namespace Services
 {
     public interface ICubeItemsService
     {
-        void OnCubeItemMerged(SignalCubeItemMerged signal);
-        CubeItem GetCube();
+        CubeItem GetCubeItem();
+        void RemoveCubeItem(SignalCubeItemMerged signal);
         void RemoveAllCubeItems();
     }
 }
