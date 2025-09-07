@@ -4,6 +4,7 @@ using Signals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using Zenject;
 
 namespace Controllers.Impls
@@ -18,7 +19,9 @@ namespace Controllers.Impls
         private IGameSettingsDatabase _gameSettingsDatabase;
 
         private TMP_Text _scoreAmountText;
+        private TMP_Text _winText;
         private Button _replayButton;
+        private bool _isGameOver;
         private bool _isInputAble = true;
         
         [Inject]
@@ -27,7 +30,8 @@ namespace Controllers.Impls
             ICubeItemsInteractService cubeItemsInteractService,
             IThrowableCubeItemService throwableCubeItemService,
             IInputService inputService,
-            TMP_Text scoreAmountText,
+            [Inject(Id = ZenjectUids.Score)] TMP_Text scoreAmountText,
+            [Inject(Id = ZenjectUids.Win)] TMP_Text winText,
             Button replayButton, 
             IGameSettingsDatabase gameSettingsDatabase)
         {
@@ -37,8 +41,16 @@ namespace Controllers.Impls
             _throwableCubeItemService = throwableCubeItemService;
             _inputService = inputService;
             _scoreAmountText = scoreAmountText;
+            _winText = winText;
             _replayButton = replayButton;
             _gameSettingsDatabase = gameSettingsDatabase;
+        }
+
+        public void OnGameOver()
+        {
+            _winText.gameObject.SetActive(true);
+            _isGameOver = true;
+            _isInputAble = false;
         }
 
         public void OnCubeItemMerged(SignalCubeItemMerged signal)
@@ -53,13 +65,13 @@ namespace Controllers.Impls
 
         public void OnCubeItemCollisionWithBorder(SignalCubeItemCollisionWithBorder signal)
         {
-            if (signal.CubeItemThatEnteredCollision.IsThrown)
+            if (signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
                 SetNewThrowableCube();
         }
         
         public void OnCubeItemCollisionWithOtherCubeItem(SignalCubeItemCollisionWithOtherCubeItem signal)
         {
-            if (signal.CubeItemThatEnteredCollision.IsThrown)
+            if (signal.CubeItemThatEnteredCollision.IsThrown && !_isGameOver)
                 SetNewThrowableCube();
 
             _cubeItemsInteractService.MergeCubeItems(signal.CubeItemThatEnteredCollision, signal.OtherCubeItem, signal.ImpactForce);
@@ -106,9 +118,11 @@ namespace Controllers.Impls
         private void OnReplayButtonClick()
         {
             _scoreAmountText.text = "0";
+            _winText.gameObject.SetActive(false);
             _throwableCubeItemService.DisableCube();
             _cubeItemsService.RemoveAllCubeItems();
             _throwableCubeItemService.SetCube(_cubeItemsService.GetCube());
+            _isGameOver = false;
             _isInputAble = true;
         }
     }

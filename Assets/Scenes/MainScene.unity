@@ -344,6 +344,17 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1327463701 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 726401031612751496, guid: 6dedb1db21e1ed240aa02f8421803dc3, type: 3}
+  m_PrefabInstance: {fileID: 4715181154335167657}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1356930905 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2258434062008735545, guid: 6dedb1db21e1ed240aa02f8421803dc3, type: 3}
@@ -401,6 +412,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4569835135656732628, guid: 3afdf5f47d713c24b906c9d444260895, type: 3}
+      propertyPath: winText
+      value: 
+      objectReference: {fileID: 1327463701}
     - target: {fileID: 4569835135656732628, guid: 3afdf5f47d713c24b906c9d444260895, type: 3}
       propertyPath: replayButton
       value: 

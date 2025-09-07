@@ -15,6 +15,7 @@ namespace Models
         public float CubeWithTwoSpawnChance;
         public int CubeNumberTwo;
         public int CubeNumberFour;
+        public int MaxCubeNumber;
         public float ThrowableCubeBorderX;
         public Vector3 ThrowableCubeSpawnPosition;
         public Vector3 ThrowableCubeSpawnRotationEuler;

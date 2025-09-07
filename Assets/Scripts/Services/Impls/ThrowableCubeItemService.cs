@@ -30,6 +30,9 @@ namespace Services.Impls
         public void SetCube(CubeItem cube)
         {
             _throwableCube = cube;
+            
+            _throwableCube.Rigidbody.isKinematic = true; 
+            _throwableCube.Rigidbody.useGravity = false;
             _throwableCube.transform.position = _gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnPosition;
             _throwableCube.transform.rotation = Quaternion.Euler(_gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnRotationEuler);
         }
@@ -46,6 +49,8 @@ namespace Services.Impls
         
         public void ThrowCube(Vector3 direction)
         {
+            _throwableCube.Rigidbody.isKinematic = false; 
+            _throwableCube.Rigidbody.useGravity = true;
             _throwableCube.Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX;
             _throwableCube.IsThrown = true;
             _throwableCube.Rigidbody.AddForce(direction.normalized * _gameSettingsDatabase.GameSettingVo.CubeThrowImpulse, ForceMode.Impulse);

@@ -9,6 +9,7 @@ using Signals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using Zenject;
 
 namespace Installers
@@ -19,6 +20,7 @@ namespace Installers
         [SerializeField] private CubeItem cubeItem;
         [Header("Canvas")] 
         [SerializeField] private TMP_Text scoreAmountText;
+        [SerializeField] private TMP_Text winText;
         [SerializeField] private Button replayButton;
         [Header ("Other")]
         [SerializeField] private Transform scriptsTransform;
@@ -40,6 +42,7 @@ namespace Installers
             Container.DeclareSignal<SignalCubeItemCollisionWithBorder>();
             Container.DeclareSignal<SignalCubeItemCollisionWithOtherCubeItem>();
             Container.DeclareSignal<SignalCubeItemMerged>();
+            Container.DeclareSignal<SignalGameOver>();
         }
 
         private void BindSignals()
@@ -50,11 +53,14 @@ namespace Installers
                 .ToMethod<IGameController>(x => x.OnCubeItemCollisionWithOtherCubeItem).FromResolve();
             Container.BindSignal<SignalCubeItemMerged>()
                 .ToMethod<IGameController>(x => x.OnCubeItemMerged).FromResolve();
+            Container.BindSignal<SignalGameOver>()
+                .ToMethod<IGameController>(x => x.OnGameOver).FromResolve();
         }
         
         private void BindUi()
         {
-            Container.Bind<TMP_Text>().FromInstance(scoreAmountText).AsSingle();
+            Container.BindInstance(scoreAmountText).WithId(ZenjectUids.Score);
+            Container.BindInstance(winText).WithId(ZenjectUids.Win);
             Container.Bind<Button>().FromInstance(replayButton).AsSingle();
         }
         private void BindFactories()

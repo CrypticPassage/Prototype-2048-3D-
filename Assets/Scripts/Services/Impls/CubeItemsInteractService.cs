@@ -34,6 +34,9 @@ namespace Services.Impls
             firstCube.Rigidbody.AddForce(Vector3.up * _gameSettingsDatabase.GameSettingVo.CubeJumpForce, ForceMode.Impulse);
             
             _signalBus.Fire(new SignalCubeItemMerged(secondCube));
+            
+            if (firstCube.Number >= _gameSettingsDatabase.GameSettingVo.MaxCubeNumber)
+                _signalBus.Fire<SignalGameOver>();
         }
     }
 }
