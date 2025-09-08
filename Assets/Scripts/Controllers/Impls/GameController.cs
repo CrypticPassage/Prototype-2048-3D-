@@ -51,14 +51,7 @@ namespace Controllers.Impls
             _replayButton = replayButton;
             _gameSettingsDatabase = gameSettingsDatabase;
         }
-
-        public void OnGameOver()
-        {
-            _winText.gameObject.SetActive(true);
-            _isGameOver = true;
-            _isInputAble = false;
-        }
-
+        
         public void OnCubeItemMerged(SignalCubeItemMerged signal)
         {
             var scoreAmount = int.Parse(_scoreAmountText.text);
@@ -66,7 +59,10 @@ namespace Controllers.Impls
             scoreAmount += 1;
             
             _scoreAmountText.text = scoreAmount.ToString();
-            _cubeItemsService.RemoveCubeItem(signal);
+            _cubeItemsService.RemoveCubeItem(signal.SecondCubeItem);
+            
+            if (signal.FirstCubeItem.Number >= _gameSettingsDatabase.GameSettingVo.MaxCubeNumber)
+                GameOver();
         }
         
         public void OnCubeItemCollision(SignalCubeItemCollision signal)
@@ -128,6 +124,13 @@ namespace Controllers.Impls
             }
         }
 
+        private void GameOver()
+        {
+            _winText.gameObject.SetActive(true);
+            _isGameOver = true;
+            _isInputAble = false;
+        }
+        
         private void OnReplayButtonClick()
         {
             _scoreAmountText.text = "0";

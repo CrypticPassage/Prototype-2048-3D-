@@ -13,11 +13,18 @@ namespace Objects
 
         private SignalBus _signalBus;
         private int _number;
+        private bool _isThrowable;
         private bool _isThrown;
 
         public Rigidbody Rigidbody => rigidbody;
         public int Number => _number;
 
+        public bool IsThrowable
+        {
+            get => _isThrowable;
+            set => _isThrowable = value;
+        }
+        
         public bool IsThrown
         {
             get => _isThrown;

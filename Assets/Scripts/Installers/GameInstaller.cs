@@ -42,7 +42,6 @@ namespace Installers
         {
             Container.DeclareSignal<SignalCubeItemCollision>();
             Container.DeclareSignal<SignalCubeItemMerged>();
-            Container.DeclareSignal<SignalGameOver>();
         }
         
         private void BindSignals()
@@ -51,8 +50,6 @@ namespace Installers
                 .ToMethod<IGameController>(x => x.OnCubeItemCollision).FromResolve();
             Container.BindSignal<SignalCubeItemMerged>()
                 .ToMethod<IGameController>(x => x.OnCubeItemMerged).FromResolve();
-            Container.BindSignal<SignalGameOver>()
-                .ToMethod<IGameController>(x => x.OnGameOver).FromResolve();
         }
         
         private void BindUi()

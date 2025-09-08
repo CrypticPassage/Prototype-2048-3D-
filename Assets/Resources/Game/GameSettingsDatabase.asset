@@ -16,7 +16,7 @@ MonoBehaviour:
     CubesAmountForPool: 40
     CubeThrowImpulse: 28
     MoveCubeOffset: 0.05
-    MinimalForceImpactToMergeCubes: 300
+    MinimalForceImpactToMergeCubes: 200
     CubeJumpForce: 4.5
     CubeWithTwoSpawnChance: 0.75
     CubeNumberTwo: 2

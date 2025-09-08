@@ -45,8 +45,8 @@ namespace Services.Impls
             return newCube;
         }
 
-        public void RemoveCubeItem(SignalCubeItemMerged signal) 
-            => _cubeItemsPool.Return(signal.MergedCubeItem);
+        public void RemoveCubeItem(CubeItem cubeItem) 
+            => _cubeItemsPool.Return(cubeItem);
         
         public void RemoveAllCubeItems() 
             => _cubeItemsPool.ReturnAll();

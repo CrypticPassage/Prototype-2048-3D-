@@ -28,19 +28,18 @@ namespace Services.Impls
 
         public void MergeCubeItems(CubeItem firstCubeItem, CubeItem secondCubeItem, float forceImpact)
         {
-            if (firstCubeItem.Number != secondCubeItem.Number || forceImpact < _gameSettingsDatabase.GameSettingVo.MinimalForceImpactToMergeCubes)
+            if (firstCubeItem.Number != secondCubeItem.Number 
+                || forceImpact < _gameSettingsDatabase.GameSettingVo.MinimalForceImpactToMergeCubes 
+                || firstCubeItem.IsThrowable || secondCubeItem.IsThrowable) 
                 return;
-
+            
             var newCubeItemNumber = firstCubeItem.Number + secondCubeItem.Number;
             var newCubeItemColor = _colorSettingsDatabase.GetColorSettingByNumber(newCubeItemNumber).Color;
 
             firstCubeItem.SetData(newCubeItemNumber, newCubeItemColor);
             firstCubeItem.Rigidbody.AddForce(Vector3.up * _gameSettingsDatabase.GameSettingVo.CubeJumpForce, ForceMode.Impulse);
             
-            _signalBus.Fire(new SignalCubeItemMerged(secondCubeItem));
-            
-            if (firstCubeItem.Number >= _gameSettingsDatabase.GameSettingVo.MaxCubeNumber)
-                _signalBus.Fire<SignalGameOver>();
+            _signalBus.Fire(new SignalCubeItemMerged(firstCubeItem, secondCubeItem));
         }
     }
 }

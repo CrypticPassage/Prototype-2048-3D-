@@ -4,11 +4,13 @@ namespace Signals
 {
     public class SignalCubeItemMerged
     {
-        public CubeItem MergedCubeItem;
+        public CubeItem FirstCubeItem;
+        public CubeItem SecondCubeItem;
 
-        public SignalCubeItemMerged(CubeItem mergedCubeItem)
+        public SignalCubeItemMerged(CubeItem firstCubeItem, CubeItem secondCubeItem)
         {
-            MergedCubeItem = mergedCubeItem;
+            FirstCubeItem = firstCubeItem;
+            SecondCubeItem = secondCubeItem;
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Services.Impls
                 return;
             
             _throwableCubeItem.Rigidbody.constraints = RigidbodyConstraints.None;
+            _throwableCubeItem.IsThrowable = false;
             _throwableCubeItem.IsThrown = false;
             _throwableCubeItem = null;
         }
@@ -33,7 +34,8 @@ namespace Services.Impls
         public void SetCubeItem(CubeItem cube)
         {
             _throwableCubeItem = cube;
-            
+
+            _throwableCubeItem.IsThrowable = true;
             _throwableCubeItem.Rigidbody.isKinematic = true; 
             _throwableCubeItem.Rigidbody.useGravity = false;
             _throwableCubeItem.transform.position = _gameSettingsDatabase.GameSettingVo.ThrowableCubeSpawnPosition;
